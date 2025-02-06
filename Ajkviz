@@ -1,0 +1,82 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
+        #quiz-container { width: 80%; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px gray; }
+        .question { font-size: 18px; margin-bottom: 10px; }
+        .answer { margin: 10px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h1>English Quiz</h1>
+        <p class="question" id="question-text"></p>
+        <input type="text" id="answer-input" placeholder="Your answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="feedback"></p>
+        <button onclick="nextQuestion()">Next Question</button>
+        <div id="score-container" class="hidden">
+            <h2>Test Completed!</h2>
+            <p id="final-score"></p>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Translate: Toto je můj dům.", answer: "This is my house." },
+            { question: "Complete: I ___ a soldier.", answer: "am" },
+            { question: "Translate: Oni mají dvě auta.", answer: "They have two cars." },
+            { question: "Which is correct? (a) He have a cat. (b) He has a cat.", answer: "b" },
+            { question: "Translate: Jaký je dnes den?", answer: "What is the weather today?" },
+            { question: "Complete: These ___ red apples.", answer: "are" },
+            { question: "Translate: To je velké auto.", answer: "That is a big car." },
+            { question: "Complete: She ___ my friend.", answer: "is" },
+            { question: "Translate: Mám sestru.", answer: "I have a sister." },
+            { question: "What day comes after Tuesday?", answer: "Wednesday" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            document.getElementById("question-text").innerText = questions[currentQuestion].question;
+            document.getElementById("answer-input").value = "";
+            document.getElementById("feedback").innerText = "";
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("answer-input").value.trim();
+            if (userAnswer.toLowerCase() === questions[currentQuestion].answer.toLowerCase()) {
+                document.getElementById("feedback").innerText = "✅ Correct!";
+                score++;
+            } else {
+                document.getElementById("feedback").innerText = `❌ Incorrect! Correct answer: ${questions[currentQuestion].answer}`;
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion === questions.length - 1) {
+                showFinalScore();
+            } else {
+                currentQuestion = Math.floor(Math.random() * questions.length);
+                displayQuestion();
+            }
+        }
+
+        function showFinalScore() {
+            document.getElementById("quiz-container").style.display = "none";
+            document.getElementById("score-container").style.display = "block";
+            document.getElementById("final-score").innerText = `Your final score: ${score} out of ${questions.length}`;
+        }
+
+        displayQuestion();
+    </script>
+
+</body>
+</html>
